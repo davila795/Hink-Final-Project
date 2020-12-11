@@ -1,0 +1,11 @@
+.navbar-img {
+    width: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.navbar {
+    background-color: #138496;
+    opacity: .8;
+}
+

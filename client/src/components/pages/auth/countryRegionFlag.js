@@ -3,18 +3,19 @@ import React, { Component } from 'react';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import countryList from 'react-select-country-list'
 
-class Example extends Component {
+class CountrySelection extends Component {
     constructor(props) {
         super(props);
-        this.state = { country: '', region: '', code: '' };
+        this.state = { country: '', city: '', code: '' };
     }
 
-    selectCountry(val) {
+    selectCountry = val => {
         this.setState({ country: val });
     }
 
-    selectRegion(val) {
-        this.setState({ region: val });
+    selectCity = val => {
+        this.setState({ city: val });
+        this.props.setCountryCity({ country: this.state.country, city: val })
     }
 
     getCountryCode(val) {
@@ -23,7 +24,7 @@ class Example extends Component {
     }
 
     render() {
-        const { country, region } = this.state;
+        const { country, city } = this.state;
         return (
             <div>
                 <CountryDropdown
@@ -32,11 +33,11 @@ class Example extends Component {
                 <ReactCountryFlag countryCode={this.state.code || 'ES'} svg style={{ marginLeft: '10px' }} /><br /><br />
                 <RegionDropdown
                     country="Spain"
-                    value={region}
-                    onChange={(val) => this.selectRegion(val)} />
+                    value={city}
+                    onChange={(val) => this.selectCity(val)} />
             </div>
         );
     }
 }
 
-export default Example
+export default CountrySelection

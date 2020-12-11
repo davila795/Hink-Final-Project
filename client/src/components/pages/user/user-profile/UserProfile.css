@@ -1,0 +1,9 @@
+.user-profile h1 {
+    margin: 60px 0 40px 0;
+}
+
+.profile-img {
+    border-radius: 15%;
+    height: 70%;
+    object-fit: cover;
+}

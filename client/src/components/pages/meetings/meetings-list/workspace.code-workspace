@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Hink-Final-Project",
+			"path": "../../../../../.."
+		},
+		{
+			"path": "../../../../../../../ironhack-proyecto2"
+		}
+	],
+	"remoteAuthority": "wsl+Ubuntu-20.04",
+	"settings": {}
+}
