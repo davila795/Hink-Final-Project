@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const meetingSchema = new Schema({
 
-    tittle: { type: String, required: [true, 'Title required'] },
+    title: { type: String, required: [true, 'Title required'] },
 
     date: Date,
 
@@ -14,12 +14,19 @@ const meetingSchema = new Schema({
     description: { type: String, maxlength: 500 },
 
     type: {
-        type: String,
-        enum: ['Beers', 'Party', 'Cultural', 'Language Exchange', 'Music', 'Sports', 'Other'],
+        type: [String],
+        enum: ['Beers', 'Party', 'Cultural', 'Languages', 'Music', 'Sports', 'Other'],
         required: [true, 'Specify your plan.']
     },
 
-    location: { type: String }, //  to use maps coordinates later
+    location: {
+        type: {
+            type: String
+        },
+        coordinates: [Number]
+    },
+
+    address: String,
 
     city: { type: String },
 
@@ -35,6 +42,8 @@ const meetingSchema = new Schema({
 }, {
     timestamps: true
 })
+
+meetingSchema.index({ location: '2dsphere' })
 
 const Meeting = mongoose.model('Meeting', meetingSchema)
 module.exports = Meeting

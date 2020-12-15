@@ -1,6 +1,6 @@
 import { Carousel } from 'react-bootstrap'
 const customCarousel = ({ meetings }) => {
-    
+
     return (
         <Carousel>
             {meetings.map((elm, idx) => {
@@ -10,10 +10,10 @@ const customCarousel = ({ meetings }) => {
                             className="d-block w-100"
                             style={{ height: '400px', objectFit: 'cover' }}
                             src={elm.image}
-                            alt={elm.tittle}
+                            alt={elm.title}
                         />
                         <Carousel.Caption>
-                            <h3>{elm.tittle}</h3>
+                            <h3>{elm.title}</h3>
                         </Carousel.Caption>
                     </Carousel.Item>
                 )

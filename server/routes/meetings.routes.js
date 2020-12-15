@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 const Meeting = require('../models/meeting.model')
+const checkId = require('../middlewares/middleware')
 
 
 router.get('/', (req, res) => {
@@ -10,32 +10,43 @@ router.get('/', (req, res) => {
         .find()
         .populate('owner')
         .populate('assistants')
-        .populate('comments.owner')
+        .populate('comments.name')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
+router.get('/getUserMeetings', (req, res) => {
 
-router.get('/getMeeting/:id', (req, res) => {
+    Meeting
+        .find({ owner: req.user.id })
+        .populate('owner')
+        .then(response => res.json(response))
+        .catch(err => res.status(500).json(err))
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        res.status(404).json({ message: 'Invalid ID' })
-        return
-    }
+})
+
+
+router.get('/getMeeting/:id', checkId, (req, res) => {
 
     Meeting
         .findById(req.params.id)
         .populate('owner')
         .populate('assistants')
-        .populate('comments.owner')
+        .populate('comments.name')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
 router.post('/newMeeting', (req, res) => {
 
+    const { latitude, longitude } = req.body
+    const location = {
+        type: 'Point',
+        coordinates: [latitude, longitude]
+    }
+
     Meeting
-        .create(req.body)
+        .create({ ...req.body, location })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -60,6 +71,14 @@ router.put('/addAssistant/:id', (req, res) => {
     Meeting
         .findByIdAndUpdate(req.params.id, { $push: { assistants: req.user.id } })
         .then(meeting => res.json(meeting))
+        .catch(err => res.status(500).json(err))
+})
+
+router.put('/addComment/:id', (req, res) => {
+
+    Meeting
+        .findByIdAndUpdate(req.params.id, { $push: { comments: req.body } })
+        .then(event => res.json(event))
         .catch(err => res.status(500).json(err))
 })
 

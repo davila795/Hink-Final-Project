@@ -32,13 +32,13 @@ router.post('/signup',
         }
         console.log(req.body)
 
-        const { username, password, email, origin, city, age, fullname, description } = req.body
+        const { username, password, email, origin, city, age, fullname, description, avatar } = req.body
 
         const salt = bcrypt.genSaltSync(bcryptSalt)
         const hashPass = bcrypt.hashSync(password, salt)
 
         User
-            .create({ username, password: hashPass, email, origin, city, age, fullname, description })
+            .create({ username, password: hashPass, email, origin, city, age, fullname, description, avatar })
             .then(newUser => req.login(newUser, err => err ? res.status(500).json({ Message: 'Login error' }) : res.status(200).json(newUser)))
             .catch(err => res.status(500).json({ Message: err }))
     })

@@ -26,7 +26,7 @@ const userSchema = new Schema({
 
     contacts: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 
-    my_mettings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
+    // my_mettings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 
     attending: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }]
 }, {

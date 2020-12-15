@@ -20,45 +20,85 @@ class MeetingsList extends Component {
             meetings: undefined,
             filters: {
                 city: '',
-                type: '',
+                type: [],
                 date: '',
+                keyword: ''
             },
             showModal: false,
         }
+        this.meetingsFilterElement = React.createRef()
         this.meetingService = new MeetingServices()
     }
 
     componentDidMount = () => this.refreshMeetings()
 
     refreshMeetings = () => {
+
         this.meetingService
             .getMeetings()
             .then(res => this.setState({
                 meetings: res.data,
-                meetingsFromApi: res.data,
-                meetingsByCity: res.data
+                meetingsFromApi: res.data
             }))
             .catch(err => console.log(err))
     }
 
     handleInputCity = val => {
+
         this.setState({
-            filters: { ...this.state.filters, city: val },
+            filters: { city: val, type: [], date: '', keyword: '' },
             meetingsByCity: this.state.meetingsFromApi.filter(elm => elm.city === val),
             meetings: this.state.meetingsFromApi.filter(elm => elm.city === val)
         })
+        this.meetingsFilterElement.current.uncheckAll()
     }
 
-    handleInputType = val => {
+    handleInputType = e => {
+
+        const array = [...this.state.filters.type]
+        if (array.includes(e.target.value)) {
+            const index = array.indexOf(e.target.value)
+            array.splice(index, 1)
+        }
+
+        e.target.checked
+            ?
+            this.setState({
+                filters: { ...this.state.filters, type: [...this.state.filters.type, e.target.value] },
+                meetings: (this.state.meetingsByCity || this.state.meetingsFromApi)
+                    .filter(elm => {
+                        return elm.type.some((type) => [...this.state.filters.type, e.target.value].includes(type))
+                    })
+            })
+            :
+            array.length === 0
+                ?
+                this.setState({
+                    filters: { ...this.state.filters, type: [] },
+                    meetings: this.state.meetingsByCity || this.state.meetingsFromApi
+                })
+                :
+                this.setState({
+                    filters: { ...this.state.filters, type: array },
+                    meetings: (this.state.meetingsByCity || this.state.meetingsFromApi)
+                        .filter(elm => elm.type.some(type => array.includes(type)))
+                })
+    }
+
+
+    handleKeyword = val => {
+
+        const valRegex = new RegExp(val, 'i')
         this.setState({
-            filters: { ...this.state.filters, type: val },
-            meetings: this.state.meetingsByCity.filter(elm => elm.type === val)
+            filters: { ...this.state.filters, keyword: val },
+            meetings: (this.state.meetingsByCity || this.state.meetingsFromApi)
+                .filter(elm => valRegex.test(elm.title) || valRegex.test(elm.description))
         })
     }
 
     handleInputDate = val => {
 
-        const sortedMeetings = this.state.meetingsByCity
+        const sortedMeetings = (this.state.meetingsByCity || this.state.meetingsFromApi)
             .filter(elm => elm.date)
             .sort((a, b) => {
                 a = a.date.split('/').reverse().join('')
@@ -73,32 +113,38 @@ class MeetingsList extends Component {
     }
 
     loggedUserMeetings = () => {
-        this.setState({ meetings: this.state.meetingsFromApi.filter(elm => elm.owner._id === this.props.loggedUser._id) })
+
+        this.meetingService
+            .getUserMeetings()
+            .then(response => this.setState({ meetings: response.data }))
+            .catch(err => console.log(err))
     }
 
-    resetSearch = () => this.setState({ meetings: this.state.meetingsFromApi, filters: { city: '', type: '', date: '' } })
+    resetSearch = () => {
+        
+        this.setState({
+            meetings: this.state.meetingsFromApi,
+            meetingsByCity: undefined,
+            filters: { type: [], city: '', date: '', keyword: '' }
+        })
+        this.meetingsFilterElement.current.uncheckAll()
+    }
 
     handleModal = visible => this.setState({ showModal: visible })
 
     render() {
         return (
             <>
-                {this.state.meetings && <CustomCarousel meetings={this.state.meetings} />}
+                {this.state.meetingsFromApi && <CustomCarousel meetings={this.state.meetingsFromApi} />}
                 <Container className='meetings-list'>
 
-                    {this.props.loggedUser
-                        &&
-                        <Row style={{ justifyContent: 'flex-end' }}>
-                            <Button onClick={() => this.handleModal(true)} variant="info" size="sm">Add Meeting</Button>
-                        </Row>
-                    }
-
-                    <MeetingsFilter filters={this.state.filters} handleInputCity={this.handleInputCity} handleInputType={this.handleInputType} handleInputDate={this.handleInputDate} />
+                    <MeetingsFilter ref={this.meetingsFilterElement} filters={this.state.filters} handleInputCity={this.handleInputCity} handleInputType={this.handleInputType} handleKeyword={this.handleKeyword} handleInputDate={this.handleInputDate} reset={this.resetSearch} loggedUser={this.props.loggedUser} getUserMeetings={this.loggedUserMeetings} /><hr />
 
                     <Row style={{ justifyContent: 'space-between' }}>
                         <h3>Meetings Available:</h3>
-                        {this.props.loggedUser && <Button variant='outline-info' onClick={this.loggedUserMeetings}>Your Meetings</Button>}
-                        <Button variant='outline-danger' size='sm' onClick={this.resetSearch}>🗘Reset</Button>
+                        {this.props.loggedUser &&
+                            <Button onClick={() => this.handleModal(true)} variant="info" size="sm">Add Meeting</Button>
+                        }
                     </Row>
                     <br />
 
@@ -117,7 +163,7 @@ class MeetingsList extends Component {
                 </Container >
 
 
-                <Modal show={this.state.showModal} onHide={() => this.handleModal(false)}>
+                <Modal show={this.state.showModal} size='lg' onHide={() => this.handleModal(false)}>
                     <Modal.Body>
                         <MeetingForm closeModal={() => this.handleModal(false)} updateList={this.refreshMeetings} loggedUser={this.props.loggedUser} />
                     </Modal.Body>

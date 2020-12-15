@@ -1,19 +1,16 @@
-const { response } = require('express')
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
+
 const User = require('../models/user.model')
+const checkId = require('../middlewares/middleware')
 
 
-router.get('/profile/:id', (req, res) => {
-
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        res.status(404).json({ message: 'Invalid ID' })
-        return
-    }
+router.get('/profile/:id', checkId, (req, res) => {
 
     User
         .findById(req.params.id)
+        .populate('contacts')
+        .populate('attending')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })

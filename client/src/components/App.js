@@ -19,7 +19,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = { loggedInUser: undefined }
-    this.authServices = new AuthServices
+    this.authServices = new AuthServices()
   }
 
   componentDidMount = () => {
@@ -44,7 +44,7 @@ class App extends Component {
             <Route path="/login" render={props => <Login storeUser={this.setTheUser} {...props} />} />
             {this.state.loggedInUser
               ?
-              <Route path='/profile/:id' render={props => <Profile loggedUser={this.state.loggedInUser} {...props} />} />
+              <Route path='/profile/:id' render={props => <Profile storeUser={this.setTheUser} loggedUser={this.state.loggedInUser} {...props} />} />
               :
               <Redirect to='/login' />
             }
