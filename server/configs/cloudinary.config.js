@@ -13,7 +13,6 @@ const storage = new CloudinaryStorage({
     params: {
         folder: 'Hink-images',
         format: async (req, file) => 'jpg',
-        quality: async (req, file) => 20,
         transformation: [
             { aspect_ratio: '4:3', crop: 'fill' },
             { width: "auto", dpr: "auto", crop: "scale" }

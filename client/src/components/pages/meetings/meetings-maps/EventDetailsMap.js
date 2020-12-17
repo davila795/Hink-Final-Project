@@ -1,7 +1,7 @@
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps"
 import Geocode from "react-geocode"
 
-Geocode.setApiKey(process.env.REACT_APP_GOOGLEMAPS_API);
+Geocode.setApiKey(`${process.env.REACT_APP_GOOGLEMAPS_API}`);
 Geocode.enableDebug();
 
 const EventMap = (props) => {
@@ -38,15 +38,16 @@ const EventMap = (props) => {
             ?
             map =
             <AsyncMap
-                googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLEMAPS_API}&libraries=places`}
+                googleMapURL={"https://maps.googleapis.com/maps/api/js?key=" + process.env.REACT_APP_GOOGLEMAPS_API + "&libraries=places"}
                 loadingElement={
-                    <div style={{ height: `100%` }} />
+                    < div style={{ height: `100%` }
+                    } />
                 }
                 containerElement={
-                    <div style={{ height: props.height,margin:'20px 0' }} />
+                    < div style={{ height: props.height, margin: '20px 0' }} />
                 }
                 mapElement={
-                    <div style={{ height: `100%` }} />
+                    < div style={{ height: `100%` }} />
                 }
             />
             :
