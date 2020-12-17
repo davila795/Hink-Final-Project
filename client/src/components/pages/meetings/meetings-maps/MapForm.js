@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps"
 import Autocomplete from 'react-google-autocomplete';
 import Geocode from "react-geocode"
+import './MapForm.css'
 
 Geocode.setApiKey('AIzaSyDX4qOmtQlNAai9C4l2e7OldXNZqZey-fE');
 Geocode.enableDebug();
@@ -26,6 +27,7 @@ class Map extends Component {
       * Get the current address from the default map position and set those values in the state
       */
     componentDidMount() {
+        console.log(this.state.mapPosition.lat)
         Geocode.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(
             response => {
                 const address = response.results[0].formatted_address,
@@ -121,7 +123,7 @@ class Map extends Component {
             city = this.getCity(addressArray),
             latValue = place.geometry.location.lat(),
             lngValue = place.geometry.location.lng();
-        
+
         this.setState({
             address: (address) ? address : '',
             city: (city) ? city : '',
@@ -153,7 +155,7 @@ class Map extends Component {
                                 height: '40px',
                                 paddingLeft: '16px',
                                 marginTop: '2px',
-                                marginBottom: '100px'
+                                marginBottom: '30px'
                             }}
                             onPlaceSelected={place => this.onPlaceSelected(place)}
                             types={['(regions)']}
@@ -202,10 +204,10 @@ class Map extends Component {
                             <div style={{ height: `100%` }} />
                         }
                         containerElement={
-                            <div style={{ height: this.props.height }} />
+                            <div style={{ height: '100%' }} />
                         }
                         mapElement={
-                            <div style={{ height: `100%` }} />
+                            <div style={{ height: this.props.height }} />
                         }
                     />
                 </div>

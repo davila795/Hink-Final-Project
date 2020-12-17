@@ -1,0 +1,21 @@
+footer {
+  width: 100%;
+  background: #2b2f2f;
+  opacity: .8;
+}
+footer ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+
+footer li {
+    margin-left: 3rem;
+  }
+footer img {
+    width: 40px;
+  }
+footer  span {
+    color: white;
+}

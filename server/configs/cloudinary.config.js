@@ -12,7 +12,8 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'Hink-images',
-        format: async (req, file) => 'jpg'
+        format: async (req, file) => 'jpg',
+        quality: async (req, file) => 50
     }
 })
 

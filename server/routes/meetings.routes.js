@@ -1,16 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const Meeting = require('../models/meeting.model')
-const checkId = require('../middlewares/middleware')
+const { checkId } = require('../middlewares/middleware')
 
 
 router.get('/', (req, res) => {
 
     Meeting
-        .find()
-        .populate('owner')
-        .populate('assistants')
-        .populate('comments.name')
+        .find({}, { title: 1, date: 1, image: 1, time: 1, owner: 1, city: 1, type: 1 })
+        .populate('owner', 'username')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -19,7 +17,7 @@ router.get('/getUserMeetings', (req, res) => {
 
     Meeting
         .find({ owner: req.user.id })
-        .populate('owner')
+        .populate('owner','username')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 
@@ -30,9 +28,9 @@ router.get('/getMeeting/:id', checkId, (req, res) => {
 
     Meeting
         .findById(req.params.id)
-        .populate('owner')
-        .populate('assistants')
-        .populate('comments.name')
+        .populate('owner', 'username')
+        .populate({ path: 'assistants', select: ['username', 'avatar'] })
+        .populate({ path: 'comments.name', select: ['username', 'avatar'] })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -52,9 +50,14 @@ router.post('/newMeeting', (req, res) => {
 })
 
 router.put('/editMeeting/:id', (req, res) => {
+    const { latitude, longitude } = req.body
+    const location = {
+        type: 'Point',
+        coordinates: [latitude, longitude]
+    }
 
     Meeting
-        .findByIdAndUpdate(req.params.id, req.body)
+        .findByIdAndUpdate(req.params.id, { ...req.body, location }, { new: true })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -69,7 +72,7 @@ router.delete('/deleteMeeting/:id', (req, res) => {
 router.put('/addAssistant/:id', (req, res) => {
 
     Meeting
-        .findByIdAndUpdate(req.params.id, { $push: { assistants: req.user.id } })
+        .findByIdAndUpdate(req.params.id, { $push: { assistants: req.user.id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
@@ -77,8 +80,8 @@ router.put('/addAssistant/:id', (req, res) => {
 router.put('/addComment/:id', (req, res) => {
 
     Meeting
-        .findByIdAndUpdate(req.params.id, { $push: { comments: req.body } })
-        .then(event => res.json(event))
+        .findByIdAndUpdate(req.params.id, { $push: { comments: req.body } }, { new: true })
+        .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
 

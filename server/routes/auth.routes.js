@@ -30,7 +30,6 @@ router.post('/signup',
             res.status(400).json({ Message: passCheck.errors })
             return
         }
-        console.log(req.body)
 
         const { username, password, email, origin, city, age, fullname, description, avatar } = req.body
 

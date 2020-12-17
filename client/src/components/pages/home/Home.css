@@ -1,0 +1,26 @@
+.jumbotron {
+    margin-bottom: 0;
+  background-image: url('./HomeBg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* animation: fade 4s 500ms; */
+  height: 94.3vh;
+  min-height: 500px;
+  filter: opacity(.95);
+} 
+
+.jumbotron h1{
+    color: whitesmoke;
+    font-size: 80px;
+}
+
+.jumbotron p{
+    color: whitesmoke;
+    font-size: 50px;
+} 
+
+@keyframes fade {
+    from {opacity: .9}
+    to {opacity: 1}
+}

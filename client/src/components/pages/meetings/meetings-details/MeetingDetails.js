@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Button, Modal, Spinner } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import logo from './021fe8a2-0a97-478b-a9d9-767e3055b732_200x200.png'
-import DetailedMap from '../../../map/EventDetailsMap'
+import Loader from '../../../shared/spinner/Loader'
+import DetailedMap from '../meetings-maps/EventDetailsMap'
+import Popup from '../../../shared/popup/PopUp'
+import Alert from '../../../shared/alert/Alert'
+
 
 
 import MeetingServices from '../../../../services/meetings.service'
@@ -18,6 +21,10 @@ class MeetingDetails extends Component {
         this.state = {
             meeting: undefined,
             showModal: false,
+            titleModal: 'Edit Plan',
+            showToast: false,
+            toastText: '',
+            toastColor: ''
         }
         this.meetingServices = new MeetingServices()
         this.userServices = new UserServices()
@@ -25,17 +32,13 @@ class MeetingDetails extends Component {
 
     componentDidMount = () => this.refreshMeeting()
 
-
     refreshMeeting = () => {
 
         const meetingId = this.props.match.params.id
         this.meetingServices
             .getMeeting(meetingId)
-            .then(response => {
-                console.log(response)
-                this.setState({ meeting: response.data })
-            })
-            .catch(err => console.log(err))
+            .then(response => this.setState({ meeting: response.data }))
+            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     deleteMeeting = () => {
@@ -44,7 +47,7 @@ class MeetingDetails extends Component {
         this.meetingServices
             .deleteMeeting(meetingId)
             .then(() => this.props.history.push('/meetings'))
-            .catch(err => console.log(err))
+            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     attendMeeting = () => {
@@ -53,11 +56,16 @@ class MeetingDetails extends Component {
         const meetingPromise = this.meetingServices.addAssistant(this.state.meeting._id)
 
         Promise.all([userPromise, meetingPromise])
-            .then(results => this.refreshMeeting())
-            .catch(err => console.log(err))
+            .then(results => {
+                this.refreshMeeting()
+                this.handleToast(true, 'Added to your list', '#9fead7')
+            })
+            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     handleModal = visible => this.setState({ showModal: visible })
+
+    handleToast = (visible, text, color) => this.setState({ showToast: visible, toastText: text, toastColor: color })
 
     render() {
 
@@ -102,39 +110,37 @@ class MeetingDetails extends Component {
                             </Row>
                             < Row >
                                 <Col md={{ span: 4, offset: 1 }}>
-                                    <p style={{ marginRight: '5px' }}>{`Going(${this.state.meeting.assistants.length})⚡`}</p>
-
-                                    {this.state.meeting.assistants.map((elm, idx) => <Link to={`/profile/${elm._id}`} key={idx}>
-                                        <img className='img-link' src={elm.avatar} alt={elm.username} /></Link>)}
+                                    <p>
+                                        {`Going(${this.state.meeting.assistants.length})⚡`}<br />
+                                        {this.state.meeting.assistants.map((elm, idx) => <Link to={`/profile/${elm._id}`} key={idx}>
+                                            <img className='img-link' src={elm.avatar} alt={elm.username} /></Link>)}
+                                    </p>
                                 </Col>
-                            </Row >
-
-                            <Row>
+                                <Col md={{ span: 10, offset: 1 }}>
+                                    <DetailedMap
+                                        google={this.props.google}
+                                        coordinates={this.state.meeting.location.coordinates}
+                                        height='300px'
+                                        zoom={15}
+                                        address={this.state.meeting.address}
+                                    />
+                                </Col>
                                 <Col md={{ span: 10, offset: 1 }}>
                                     <Comments comments={this.state.meeting.comments} loggedUser={this.props.loggedUser} meetingId={this.state.meeting._id} updateMeeting={this.refreshMeeting} />
                                 </Col>
-                            </Row>
-                            <DetailedMap
-                                google={this.props.google}
-                                coordinates={this.state.meeting.location.coordinates}
-                                height='300px'
-                                zoom={15}
-                                address={this.state.meeting.address}
-                            />
+                            </Row >
                         </>
                         :
-                        <Spinner animation="grow" role="status">
-                            <img src={logo} width='40px' className='App' alt="logo" />
-                        </Spinner>
+                        <Loader />
                     }
 
                 </Container>
 
-                <Modal show={this.state.showModal} size='lg' onHide={() => this.handleModal(false)}>
-                    <Modal.Body>
-                        <EditForm closeModal={() => this.handleModal(false)} updateMeeting={this.refreshMeeting} meeting={this.state.meeting} />
-                    </Modal.Body>
-                </Modal>
+                <Popup show={this.state.showModal} handleModal={this.handleModal} title={this.state.titleModal}>
+                    <EditForm closeModal={() => this.handleModal(false)} updateMeeting={this.refreshMeeting} handleToast={this.handleToast} meeting={this.state.meeting} />
+                </Popup>
+
+                <Alert show={this.state.showToast} handleToast={this.handleToast} toastText={this.state.toastText} toastColor={this.state.toastColor} />
             </>
         )
     }

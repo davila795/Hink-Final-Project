@@ -5,32 +5,45 @@ const meetingSchema = new Schema({
 
     title: { type: String, required: [true, 'Title required'] },
 
-    date: Date,
+    date: {
+        type: Date,
+        default: Date.now
+    },
 
     time: String,
 
-    image: { type: String, default: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80' },
+    image: { type: String, default: 'https://res.cloudinary.com/davila795/image/upload/v1608147459/Hink-images/viqgx33hhauhoinbfd41.jpg' },
 
     description: { type: String, maxlength: 500 },
 
     type: {
         type: [String],
         enum: ['Beers', 'Party', 'Cultural', 'Languages', 'Music', 'Sports', 'Other'],
-        required: [true, 'Specify your plan.']
+        // required: [true, 'Specify your plan.']
     },
 
     location: {
         type: {
-            type: String
+            type: String,
+            default: 'Point'
         },
-        coordinates: [Number]
+        coordinates: {
+            type: [Number],
+            default: [40.450620, - 3.686573]
+        }
     },
 
-    address: String,
+    address: {
+        type: String,
+        default: 'Paseo de la Habana, 52, 28036 Madrid, Spain'
+    },
 
-    city: { type: String },
+    city: {
+        type: String,
+        default: 'Madrid'
+    },
 
-    owner: { type: Schema.Types.ObjectId, ref: 'User' },
+    owner: { type: Schema.Types.ObjectId, ref: 'User', default: '5fd29f116436e7304c4aa166' },
 
     assistants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 

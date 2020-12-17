@@ -1,9 +1,13 @@
-.user-profile h1 {
-    margin: 60px 0 40px 0;
-}
-
 .profile-img {
-    border-radius: 15%;
-    height: 70%;
+    border-radius: 50%;
+    border: 1px solid paleturquoise;
+    width: 100px;
     object-fit: cover;
 }
+
+.user-profile {
+    margin-top: 6rem;
+    margin-bottom: 4rem;
+}
+
+

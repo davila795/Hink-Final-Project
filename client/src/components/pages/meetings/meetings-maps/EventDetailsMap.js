@@ -4,7 +4,7 @@ import Geocode from "react-geocode"
 Geocode.setApiKey('AIzaSyDX4qOmtQlNAai9C4l2e7OldXNZqZey-fE');
 Geocode.enableDebug();
 
-export default props => {
+const EventMap = (props) => {
     console.log(props)
     const AsyncMap = withScriptjs(
         withGoogleMap(
@@ -43,7 +43,7 @@ export default props => {
                     <div style={{ height: `100%` }} />
                 }
                 containerElement={
-                    <div style={{ height: props.height }} />
+                    <div style={{ height: props.height,margin:'20px 0' }} />
                 }
                 mapElement={
                     <div style={{ height: `100%` }} />
@@ -55,3 +55,4 @@ export default props => {
     return (map)
 }
 
+export default EventMap

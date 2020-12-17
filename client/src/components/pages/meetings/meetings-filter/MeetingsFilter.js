@@ -153,7 +153,7 @@ class MettingsFilter extends Component {
                             </div>
                         </Form.Group>
                     </Col>
-                    {loggedUser && <Button variant='outline-info' onClick={getUserMeetings}>Your Meetings</Button>}
+                    {loggedUser && <Button variant='outline-info' onClick={getUserMeetings}>Your Plans</Button>}
                     <Button variant='outline-danger' size='sm' onClick={reset}>🗘Reset</Button>
                 </Row>
             </>

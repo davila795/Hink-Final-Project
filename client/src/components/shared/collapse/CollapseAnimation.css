@@ -1,0 +1,11 @@
+.countries-list {
+    max-height: 88vh;
+    overflow: scroll;
+    margin-top: 20px;
+}
+
+.contact-img {
+  width: 25px;
+  border-radius: 20%;
+  margin: 10px 10px 10px 0;
+}

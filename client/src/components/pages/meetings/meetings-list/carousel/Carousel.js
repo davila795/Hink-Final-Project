@@ -8,7 +8,7 @@ const customCarousel = ({ meetings }) => {
                     <Carousel.Item key={idx}>
                         <img
                             className="d-block w-100"
-                            style={{ height: '400px', objectFit: 'cover' }}
+                            style={{ height: '70vh', objectFit: 'cover' }}
                             src={elm.image}
                             alt={elm.title}
                         />

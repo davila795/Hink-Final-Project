@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import UserService from '../../../../services/user.service'
 import UploadService from '../../../../services/upload.service'
 import CountrySelection from '../../auth/countryRegionFlag'
-import { Spinner } from 'react-bootstrap'
-import logo from './021fe8a2-0a97-478b-a9d9-767e3055b732_200x200.png'
+import Loader from '../../../shared/spinner/Loader'
 
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 
 class EditForm extends Component {
 
@@ -39,9 +38,11 @@ class EditForm extends Component {
             .editProfile(this.state.user)
             .then(user => {
                 this.props.updateUser()
+                this.props.storeUser(user.data)
                 this.props.closeModal()
+                this.props.handleToast(true, 'Profile updated', '#9fead7')
             })
-            .catch(err => console.log('There was an error:', err.response.data.Message))
+            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     handleImageUpload = e => {
@@ -59,7 +60,7 @@ class EditForm extends Component {
                     uploadingActive: false
                 })
             })
-            .catch(err => console.log('ERRORRR!', err))
+            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     setCountryCity = ({ country, city }) => {
@@ -94,10 +95,7 @@ class EditForm extends Component {
                     <Form.Control as='textarea' rows={3} name="description" value={this.state.user.description} onChange={this.handleInputChange} />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Image (file) {this.state.uploadingActive &&
-                        <Spinner animation="grow" role="status">
-                            <img src={logo} width='40px' className='App' alt="logo" />
-                        </Spinner>}
+                    <Form.Label>Image (file) {this.state.uploadingActive && <Loader />}
                     </Form.Label>
                     <Form.Control type="file" onChange={this.handleImageUpload} />
                 </Form.Group>

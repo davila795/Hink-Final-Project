@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import MeetingServices from '../../../../services/meetings.service'
-import logo from './021fe8a2-0a97-478b-a9d9-767e3055b732_200x200.png'
 
 import MeetingForm from './../meetings-form/New'
 import MeetingCard from '../meetings-card/MeetingsCards'
 import MeetingsFilter from '../meetings-filter/MeetingsFilter'
 import CustomCarousel from './carousel/Carousel'
+import Alert from '../../../shared/alert/Alert'
+import Loader from '../../../shared/spinner/Loader'
+import Popup from '../../../shared/popup/PopUp'
 
-import { Container, Row, Button, Modal, Spinner } from 'react-bootstrap'
+import { Container, Row, Button } from 'react-bootstrap'
 import './MeetingsList.css'
 
 class MeetingsList extends Component {
@@ -25,6 +27,10 @@ class MeetingsList extends Component {
                 keyword: ''
             },
             showModal: false,
+            showToast: false,
+            titleModal: 'New Plan',
+            toastText: '',
+            toastColor: ''
         }
         this.meetingsFilterElement = React.createRef()
         this.meetingService = new MeetingServices()
@@ -40,7 +46,7 @@ class MeetingsList extends Component {
                 meetings: res.data,
                 meetingsFromApi: res.data
             }))
-            .catch(err => console.log(err))
+            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     handleInputCity = val => {
@@ -117,11 +123,11 @@ class MeetingsList extends Component {
         this.meetingService
             .getUserMeetings()
             .then(response => this.setState({ meetings: response.data }))
-            .catch(err => console.log(err))
+            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     resetSearch = () => {
-        
+
         this.setState({
             meetings: this.state.meetingsFromApi,
             meetingsByCity: undefined,
@@ -132,18 +138,21 @@ class MeetingsList extends Component {
 
     handleModal = visible => this.setState({ showModal: visible })
 
+    handleToast = (visible, text, color) => this.setState({ showToast: visible, toastText: text, toastColor: color })
+
     render() {
         return (
             <>
-                {this.state.meetingsFromApi && <CustomCarousel meetings={this.state.meetingsFromApi} />}
+                {this.state.meetingsFromApi ? <CustomCarousel meetings={this.state.meetingsFromApi} /> : <Loader />}
+
                 <Container className='meetings-list'>
 
                     <MeetingsFilter ref={this.meetingsFilterElement} filters={this.state.filters} handleInputCity={this.handleInputCity} handleInputType={this.handleInputType} handleKeyword={this.handleKeyword} handleInputDate={this.handleInputDate} reset={this.resetSearch} loggedUser={this.props.loggedUser} getUserMeetings={this.loggedUserMeetings} /><hr />
 
                     <Row style={{ justifyContent: 'space-between' }}>
-                        <h3>Meetings Available:</h3>
+                        <h3>Plans Available:</h3>
                         {this.props.loggedUser &&
-                            <Button onClick={() => this.handleModal(true)} variant="info" size="sm">Add Meeting</Button>
+                            <Button onClick={() => this.handleModal(true)} variant="info" size="sm">Add Plan</Button>
                         }
                     </Row>
                     <br />
@@ -154,21 +163,17 @@ class MeetingsList extends Component {
                                 ?
                                 this.state.meetings.map(elm => <MeetingCard key={elm._id} {...elm} loggedUser={this.props.loggedUser} />)
                                 :
-                                <Spinner animation="grow" role="status">
-                                    <img src={logo} width='40px' className='App' alt="logo" />
-                                </Spinner>
+                                <Loader />
                         }
                     </Row>
 
                 </Container >
 
+                <Popup show={this.state.showModal} handleModal={this.handleModal} title={this.state.titleModal}>
+                    <MeetingForm closeModal={() => this.handleModal(false)} handleToast={this.handleToast} updateList={this.refreshMeetings} loggedUser={this.props.loggedUser} />
+                </Popup>
 
-                <Modal show={this.state.showModal} size='lg' onHide={() => this.handleModal(false)}>
-                    <Modal.Body>
-                        <MeetingForm closeModal={() => this.handleModal(false)} updateList={this.refreshMeetings} loggedUser={this.props.loggedUser} />
-                    </Modal.Body>
-                </Modal>
-
+                <Alert show={this.state.showToast} handleToast={this.handleToast} toastText={this.state.toastText} toastColor={this.state.toastColor} />
             </>
         )
     }

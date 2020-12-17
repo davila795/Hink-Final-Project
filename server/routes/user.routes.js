@@ -2,15 +2,15 @@ const express = require('express')
 const router = express.Router()
 
 const User = require('../models/user.model')
-const checkId = require('../middlewares/middleware')
+const { checkId } = require('../middlewares/middleware')
 
 
 router.get('/profile/:id', checkId, (req, res) => {
 
     User
         .findById(req.params.id)
-        .populate('contacts')
-        .populate('attending')
+        .populate({ path: 'contacts', select: ['fullname', 'avatar'] })
+        .populate({ path: 'attending', select: ['title', 'image'] })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -18,7 +18,7 @@ router.get('/profile/:id', checkId, (req, res) => {
 router.put('/editProfile', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user.id, req.body)
+        .findByIdAndUpdate(req.user.id, req.body, { new: true })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -34,14 +34,14 @@ router.delete('/deleteProfile', (req, res) => {
 router.put('/addMeeting/:id', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user.id, { $push: { attending: req.params.id } })
+        .findByIdAndUpdate(req.user.id, { $push: { attending: req.params.id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
 
 router.delete('/deleteMeeting/:id', (req, res) => {
     User
-        .findByIdAndUpdate(req.user.id, { $pull: { attending: req.params.id } })
+        .findByIdAndUpdate(req.user.id, { $pull: { attending: req.params.id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
@@ -49,7 +49,7 @@ router.delete('/deleteMeeting/:id', (req, res) => {
 router.put('/addContact/:id', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user.id, { $push: { contacts: req.params.id } })
+        .findByIdAndUpdate(req.user.id, { $push: { contacts: req.params.id } }, { new: true })
         .then(contact => res.json(contact))
         .catch(err => res.status(500).json(err))
 })

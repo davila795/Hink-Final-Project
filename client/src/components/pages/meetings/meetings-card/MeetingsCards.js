@@ -6,7 +6,7 @@ const MeetingCard = ({ image, owner, _id, title, time, date, city, type }) => {
 
     return (
 
-        <Col md={3} >
+        <Col md={3} style={{ margin: '10px 0' }} >
             <Card>
                 <Card.Img variant="top" style={{ height: '140px', objectFit: 'cover' }} src={image} />
                 <Card.Body>

@@ -14,7 +14,7 @@ const userSchema = new Schema({
 
     age: Number,
 
-    avatar: { type: String, default: 'https://www.cmcaindia.org/wp-content/uploads/2015/11/default-profile-picture-gmail-2.png' },
+    avatar: { type: String, default: 'https://res.cloudinary.com/davila795/image/upload/v1608147555/Hink-images/roetpubkc7a3iehxqkvg.jpg' },
 
     password: String,
 
@@ -25,8 +25,6 @@ const userSchema = new Schema({
     city: String,
 
     contacts: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-
-    // my_mettings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 
     attending: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }]
 }, {

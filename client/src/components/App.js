@@ -6,11 +6,13 @@ import React, { Component } from 'react'
 import AuthServices from '../services/auth.service'
 
 import Navigation from './layout/Navbar/Navbar'
+import Footer from '../components/layout/footer/Footer'
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/SignUp'
 import MeetingsList from './pages/meetings/meetings-list/MeetingsList'
 import MeetingDetails from './pages/meetings/meetings-details/MeetingDetails'
 import Profile from './pages/user/user-profile/UserProfile'
+import MyProfile from './pages/user/user-profile/MyProfile'
 
 import './App.css'
 
@@ -44,13 +46,19 @@ class App extends Component {
             <Route path="/login" render={props => <Login storeUser={this.setTheUser} {...props} />} />
             {this.state.loggedInUser
               ?
-              <Route path='/profile/:id' render={props => <Profile storeUser={this.setTheUser} loggedUser={this.state.loggedInUser} {...props} />} />
+              <Route path='/my-profile' render={() => <MyProfile storeUser={this.setTheUser} loggedUser={this.state.loggedInUser} />} />
+              :
+              <Redirect to='/login' />
+            }
+            {this.state.loggedInUser
+              ?
+              <Route path='/profile/:id' render={props => <Profile loggedUser={this.state.loggedInUser} storeUser={this.setTheUser} {...props} />} />
               :
               <Redirect to='/login' />
             }
           </Switch>
         </main>
-
+        <Footer />
       </>
     )
   }
