@@ -4,7 +4,7 @@ export default class MeetingServices {
 
     constructor() {
         this.apiHandler = axios.create({
-            baseURL: 'http://localhost:5000/api/meetings',
+            baseURL: `${process.env.REACT_APP_API_URL}/meetings`,
             withCredentials: true
         })
     }
