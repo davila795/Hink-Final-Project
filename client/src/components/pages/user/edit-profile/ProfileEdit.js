@@ -42,7 +42,7 @@ class EditForm extends Component {
                 this.props.closeModal()
                 this.props.handleToast(true, 'Profile updated', '#9fead7')
             })
-            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
+            .catch(err => this.props.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     handleImageUpload = e => {
@@ -60,7 +60,7 @@ class EditForm extends Component {
                     uploadingActive: false
                 })
             })
-            .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
+            .catch(err => this.props.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     setCountryCity = ({ country, city }) => {

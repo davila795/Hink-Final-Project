@@ -62,7 +62,7 @@ class Profile extends Component {
                     {this.state.user
                         ?
                         <>
-                            <Row style={{marginBottom:'40px'}}>
+                            <Row style={{ marginBottom: '40px' }}>
                                 <Col md={{ span: 4, offset: 1 }}>
                                     <h1>User Profile ⤵</h1>
                                 </Col>
@@ -75,7 +75,7 @@ class Profile extends Component {
                                     <Card style={{ textAlign: 'center' }}>
                                         <Card.Body>
                                             <div style={{ backgroundColor: 'rgba(66, 157, 171,.2)', padding: '20px 0 20px 0', marginBottom: '20px', borderRadius: '20px' }}>
-                                                <img src={this.state.user.avatar} style={{ borderRadius: '50%', width: 150 }} />
+                                                <img src={this.state.user.avatar} style={{ borderRadius: '50%', width: 100, objectFit: 'cover' }} />
                                             </div>
                                             <Card.Title>
                                                 <figure>
