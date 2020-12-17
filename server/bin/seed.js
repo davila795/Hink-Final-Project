@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Meeting = require('../models/meeting.model')
 
 
-mongoose.connect('mongodb+srv://davila795:calanha14@cluster0.8dgyw.mongodb.net/test')            // Cambiar por literal
+mongoose.connect(process.env.DB_REMOTE)            // Cambiar por literal
 
 Meeting.collection.drop()
 
