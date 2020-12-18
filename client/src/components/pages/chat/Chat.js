@@ -11,7 +11,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { Col, Row, Container, Button } from 'react-bootstrap'
 
 firebase.initializeApp({
-    apiKey: "AIzaSyDYN7JuYKwBilad3zha6vm-LRhyVWF2gYo",
+    apiKey: process.env.REACT_APP_FIREBASE_API,
     authDomain: "hink-d1b5f.firebaseapp.com",
     projectId: "hink-d1b5f",
     storageBucket: "hink-d1b5f.appspot.com",
