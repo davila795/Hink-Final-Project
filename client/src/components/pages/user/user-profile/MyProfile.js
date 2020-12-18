@@ -8,6 +8,7 @@ import ReactCountryFlag from "react-country-flag"
 import countryList from 'react-select-country-list'
 import Popup from '../../../shared/popup/PopUp'
 import Alert from '../../../shared/alert/Alert'
+import ChatRoom from '../../chat/Chat'
 import './UserProfile.css'
 
 

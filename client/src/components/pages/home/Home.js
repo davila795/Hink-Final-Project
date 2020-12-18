@@ -13,7 +13,8 @@ const Home = () => {
                         Live local!
                     </p>
                     <p className='animate__animated animate__backInRight animate__delay-1s'>
-                        <Link to='/meetings' className='btn btn-outline-light btn-lg'>Check plans in your city</Link>
+                        <Link to='/meetings' className='btn btn-outline-light btn-lg'>Check plans in your city+</Link>{' '}
+                        <Link to='/chatroom' className='btn btn-outline-light btn-lg'>Straight in chatroom</Link>
                     </p>
                 </Col>
             </Row>

@@ -4,6 +4,18 @@
     margin-top: 20px;
 }
 
+.countries-list::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.countries-list::-webkit-scrollbar-track {
+  background: #E5E5EA;
+}
+
+.countries-list::-webkit-scrollbar-thumb {
+  background: #1e1e24;
+}
+
 .contact-img {
   width: 25px;
   border-radius: 20%;

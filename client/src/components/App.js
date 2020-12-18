@@ -13,6 +13,7 @@ import MeetingsList from './pages/meetings/meetings-list/MeetingsList'
 import MeetingDetails from './pages/meetings/meetings-details/MeetingDetails'
 import Profile from './pages/user/user-profile/UserProfile'
 import MyProfile from './pages/user/user-profile/MyProfile'
+import ChatRoom from '../components/pages/chat/Chat'
 
 import './App.css'
 
@@ -39,6 +40,7 @@ class App extends Component {
         <Navigation storeUser={this.setTheUser} loggedUser={this.state.loggedInUser} />
         <main>
           <Switch>
+            <Route path='/chatroom' render={() => <ChatRoom />} />
             <Route path='/' exact render={() => <Home />} />
             <Route path='/meetings' exact render={() => <MeetingsList loggedUser={this.state.loggedInUser} />} />
             <Route path='/meetings/:id' render={props => <MeetingDetails loggedUser={this.state.loggedInUser} {...props} />} />
