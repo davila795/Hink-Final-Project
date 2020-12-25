@@ -8,13 +8,10 @@ const User = require('../models/user.model')
 
 module.exports = app => {
 
-    app.enable('trust proxy')
-
     app.use(session({
         secret: "webmad0820",
         resave: true,
         saveUninitialized: true,
-        proxy: true
     }))
 
     passport.serializeUser((user, next) => next(null, user._id))
