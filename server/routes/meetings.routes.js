@@ -17,7 +17,7 @@ router.get('/getUserMeetings', (req, res) => {
 
     Meeting
         .find({ owner: req.user._id })
-        .populate('owner','username')
+        .populate('owner', 'username')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 
