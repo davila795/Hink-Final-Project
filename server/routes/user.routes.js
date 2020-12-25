@@ -18,7 +18,7 @@ router.get('/profile/:id', checkId, (req, res) => {
 router.put('/editProfile', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user.id, req.body, { new: true })
+        .findByIdAndUpdate(req.user._id, req.body, { new: true })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -26,7 +26,7 @@ router.put('/editProfile', (req, res) => {
 router.delete('/deleteProfile', (req, res) => {
 
     User
-        .findByIdAndDelete(req.user.id)
+        .findByIdAndDelete(req.user._id)
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
@@ -34,14 +34,14 @@ router.delete('/deleteProfile', (req, res) => {
 router.put('/addMeeting/:id', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user.id, { $push: { attending: req.params.id } }, { new: true })
+        .findByIdAndUpdate(req.user._id, { $push: { attending: req.params.id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
 
 router.delete('/deleteMeeting/:id', (req, res) => {
     User
-        .findByIdAndUpdate(req.user.id, { $pull: { attending: req.params.id } }, { new: true })
+        .findByIdAndUpdate(req.user._id, { $pull: { attending: req.params.id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
@@ -49,14 +49,14 @@ router.delete('/deleteMeeting/:id', (req, res) => {
 router.put('/addContact/:id', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user.id, { $push: { contacts: req.params.id } }, { new: true })
+        .findByIdAndUpdate(req.user._id, { $push: { contacts: req.params.id } }, { new: true })
         .then(contact => res.json(contact))
         .catch(err => res.status(500).json(err))
 })
 
 router.delete('/deleteContact/:id', (req, res) => {
     User
-        .findByIdAndUpdate(req.user.id, { $pull: { contacts: req.params.id } })
+        .findByIdAndUpdate(req.user._id, { $pull: { contacts: req.params.id } })
         .then(contact => res.json(contact))
         .catch(err => res.status(500).json(err))
 })

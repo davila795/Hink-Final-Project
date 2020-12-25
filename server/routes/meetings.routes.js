@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 router.get('/getUserMeetings', (req, res) => {
 
     Meeting
-        .find({ owner: req.user.id })
+        .find({ owner: req.user._id })
         .populate('owner','username')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
@@ -72,7 +72,7 @@ router.delete('/deleteMeeting/:id', (req, res) => {
 router.put('/addAssistant/:id', (req, res) => {
 
     Meeting
-        .findByIdAndUpdate(req.params.id, { $push: { assistants: req.user.id } }, { new: true })
+        .findByIdAndUpdate(req.params.id, { $push: { assistants: req.user._id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
