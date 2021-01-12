@@ -35,7 +35,7 @@ class EditForm extends Component {
         e.preventDefault()
 
         this.userService
-            .editProfile(this.state.user)
+            .editProfile(this.props.userId, this.state.user)
             .then(user => {
                 this.props.updateUser()
                 this.props.storeUser(user.data)

@@ -52,8 +52,8 @@ class MeetingDetails extends Component {
 
     attendMeeting = () => {
 
-        const userPromise = this.userServices.addMeeting(this.state.meeting._id)
-        const meetingPromise = this.meetingServices.addAssistant(this.state.meeting._id)
+        const userPromise = this.userServices.addMeeting(this.props.loggedUser._id, this.state.meeting._id)
+        const meetingPromise = this.meetingServices.addAssistant(this.state.meeting._id, this.props.loggedUser._id)
 
         Promise.all([userPromise, meetingPromise])
             .then(results => {

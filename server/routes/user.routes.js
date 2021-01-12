@@ -15,48 +15,48 @@ router.get('/profile/:id', checkId, (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
-router.put('/editProfile', (req, res) => {
+router.put('/editProfile/:user_id', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user._id, req.body, { new: true })
+        .findByIdAndUpdate(req.params.user_id, req.body, { new: true })
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
-router.delete('/deleteProfile', (req, res) => {
+router.delete('/deleteProfile/:user_id', (req, res) => {
 
     User
-        .findByIdAndDelete(req.user._id)
+        .findByIdAndDelete(req.params.user_id)
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
 })
 
-router.put('/addMeeting/:id', (req, res) => {
+router.put('/addMeeting/:user_id/:meeting_id', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user._id, { $push: { attending: req.params.id } }, { new: true })
+        .findByIdAndUpdate(req.params.user_id, { $push: { attending: req.params.meeting_id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
 
-router.delete('/deleteMeeting/:id', (req, res) => {
+router.delete('/deleteMeeting/:user_id/:meeting_id', (req, res) => {
     User
-        .findByIdAndUpdate(req.user._id, { $pull: { attending: req.params.id } }, { new: true })
+        .findByIdAndUpdate(req.params.user_id, { $pull: { attending: req.params.meeting_id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })
 
-router.put('/addContact/:id', (req, res) => {
+router.put('/addContact/:user_id/:contact_id', (req, res) => {
 
     User
-        .findByIdAndUpdate(req.user._id, { $push: { contacts: req.params.id } }, { new: true })
+        .findByIdAndUpdate(req.params.user_id, { $push: { contacts: req.params.contact_id } }, { new: true })
         .then(contact => res.json(contact))
         .catch(err => res.status(500).json(err))
 })
 
-router.delete('/deleteContact/:id', (req, res) => {
+router.delete('/deleteContact/:user_id/:contact_id', (req, res) => {
     User
-        .findByIdAndUpdate(req.user._id, { $pull: { contacts: req.params.id } })
+        .findByIdAndUpdate(req.params.user_id, { $pull: { contacts: req.params.contact_id } })
         .then(contact => res.json(contact))
         .catch(err => res.status(500).json(err))
 })

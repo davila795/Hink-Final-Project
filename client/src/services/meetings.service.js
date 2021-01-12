@@ -14,7 +14,7 @@ export default class MeetingServices {
     saveMeeting = meetingInfo => this.apiHandler.post(`/newMeeting/`, meetingInfo)
     editMeeting = (meetingId, meetingInfo) => this.apiHandler.put(`/editMeeting/${meetingId}`, meetingInfo)
     deleteMeeting = meetingId => this.apiHandler.delete(`/deleteMeeting/${meetingId}`)
-    addAssistant = meetingId => this.apiHandler.put(`/addAssistant/${meetingId}`)
+    addAssistant = (meetingId, userId) => this.apiHandler.put(`/addAssistant/${meetingId}/${userId}`)
     addComment = (meetingId, message) => this.apiHandler.put(`/addComment/${meetingId}`, message)
-    getUserMeetings = () => this.apiHandler.get('/getUserMeetings')
+    getUserMeetings = userId => this.apiHandler.get(`/getUserMeetings/${userId}`)
 }

@@ -13,10 +13,10 @@ router.get('/', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
-router.get('/getUserMeetings', (req, res) => {
+router.get('/getUserMeetings/:id', (req, res) => {
 
     Meeting
-        .find({ owner: req.user._id })
+        .find({ owner: req.params.id })
         .populate('owner', 'username')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
@@ -69,10 +69,10 @@ router.delete('/deleteMeeting/:id', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
-router.put('/addAssistant/:id', (req, res) => {
+router.put('/addAssistant/:meeting_id/:user_id', (req, res) => {
 
     Meeting
-        .findByIdAndUpdate(req.params.id, { $push: { assistants: req.user._id } }, { new: true })
+        .findByIdAndUpdate(req.params.meeting_id, { $push: { assistants: req.params.user_id } }, { new: true })
         .then(meeting => res.json(meeting))
         .catch(err => res.status(500).json(err))
 })

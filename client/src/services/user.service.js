@@ -10,10 +10,10 @@ export default class UserServices {
     }
 
     getProfile = userId => this.apiHandler.get(`/profile/${userId}`)
-    editProfile = userInfo => this.apiHandler.put(`/editProfile`, userInfo)
-    deleteProfile = () => this.apiHandler.delete(`/deleteProfile`)
-    addMeeting = meetingId => this.apiHandler.put(`/addMeeting/${meetingId}`)
-    deleteMeeting = meetingId => this.apiHandler.delete(`/deleteMeeting/${meetingId}`)
-    addContact = userId => this.apiHandler.put(`/addContact/${userId}`)
-    deleteContact = userId => this.apiHandler.delete(`/deleteContact/${userId}`)
+    editProfile = (userId, userInfo) => this.apiHandler.put(`/editProfile/${userId}`, userInfo)
+    deleteProfile = (userId) => this.apiHandler.delete(`/deleteProfile/${userId}`)
+    addMeeting = (userId, meetingId) => this.apiHandler.put(`/addMeeting/${userId}/${meetingId}`)
+    deleteMeeting = (userId, meetingId) => this.apiHandler.delete(`/deleteMeeting/${userId}/${meetingId}`)
+    addContact = (userId, contactId) => this.apiHandler.put(`/addContact/${userId}/${contactId}`)
+    deleteContact = (userId, contactId) => this.apiHandler.delete(`/deleteContact/${userId}/${contactId}`)
 }

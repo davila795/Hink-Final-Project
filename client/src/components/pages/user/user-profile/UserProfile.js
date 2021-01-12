@@ -39,7 +39,7 @@ class Profile extends Component {
 
     addContact = () => {
         this.userService
-            .addContact(this.state.user._id)
+            .addContact(this.props.loggedUser._id, this.state.user._id)
             .then(response => this.handleToast(true, 'Added to your contacts list', '#9fead7'))
             .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }

@@ -8,7 +8,6 @@ import ReactCountryFlag from "react-country-flag"
 import countryList from 'react-select-country-list'
 import Popup from '../../../shared/popup/PopUp'
 import Alert from '../../../shared/alert/Alert'
-import ChatRoom from '../../chat/Chat'
 import './UserProfile.css'
 
 
@@ -40,14 +39,14 @@ class Profile extends Component {
 
     removeContact = contactId => {
         this.userService
-            .deleteContact(contactId)
+            .deleteContact(this.props.loggedUser._id, contactId)
             .then(() => this.refreshUser())
             .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
 
     removeAttending = meetingId => {
         this.userService
-            .deleteMeeting(meetingId)
+            .deleteMeeting(this.props.loggedUser._id, meetingId)
             .then(() => this.refreshUser())
             .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
@@ -106,7 +105,7 @@ class Profile extends Component {
                 </Container >
 
                 <Popup show={this.state.showModal} handleModal={this.handleModal} title={this.state.titleModal}>
-                    <ProfileEdit closeModal={() => this.handleModal(false)} handleToast={this.handleToast} storeUser={this.props.storeUser} updateUser={this.refreshUser} user={this.state.user} />
+                    <ProfileEdit closeModal={() => this.handleModal(false)} handleToast={this.handleToast} storeUser={this.props.storeUser} updateUser={this.refreshUser} user={this.state.user} userId={this.props.loggedUser._id} />
                 </Popup>
 
                 <Alert show={this.state.showToast} handleToast={this.handleToast} toastText={this.state.toastText} toastColor={this.state.toastColor} />
