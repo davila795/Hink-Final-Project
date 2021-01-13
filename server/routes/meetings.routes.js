@@ -13,10 +13,10 @@ router.get('/', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
-router.get('/getUserMeetings', (req, res) => {
+router.get('/getUserMeetings/:id', (req, res) => {
 
     Meeting
-        .find({ owner: req.user._id })
+        .find({ owner: req.params.id })
         .populate('owner', 'username')
         .then(response => res.json(response))
         .catch(err => res.status(500).json(err))
