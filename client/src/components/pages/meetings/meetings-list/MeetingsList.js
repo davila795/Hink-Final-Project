@@ -121,7 +121,7 @@ class MeetingsList extends Component {
     loggedUserMeetings = () => {
 
         this.meetingService
-            .getUserMeetings(this.props.loggedUser._id)
+            .getUserMeetings()
             .then(response => this.setState({ meetings: response.data }))
             .catch(err => this.handleToast(true, err.response.data.message, '#ef7a7a'))
     }
