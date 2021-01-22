@@ -31,7 +31,7 @@ class Navigation extends Component {
     render() {
         return (
             <>
-                <Navbar className='navbar fixed-top' expand='md' >
+                <Navbar collapseOnSelect className='navbar fixed-top' expand='lg' >
                     <Link to='/'>
                         <Navbar.Brand>
                             <img
@@ -43,6 +43,8 @@ class Navigation extends Component {
                             />
                         </Navbar.Brand>
                     </Link>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ml-auto">
                         <Link to='/'>
                             <Nav.Link as='div' style={{ color: 'white', fontWeight: 'bolder' }}>Home</Nav.Link>
@@ -68,7 +70,8 @@ class Navigation extends Component {
                                 </Link>
                             </>
                         }
-                    </Nav>
+                        </Nav>
+                    </Navbar.Collapse>
                 </Navbar>
 
                 <Alert show={this.state.showToast} handleToast={this.handleToast} toastText={this.state.toastText} toastColor={this.state.toastColor} />

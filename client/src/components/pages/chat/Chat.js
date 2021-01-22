@@ -29,7 +29,7 @@ function ChatPage() {
 
     return (
         <Container className='animate__animated animate__slideInUp'>
-            <Row style={{ margin: '120px 0 60px 0' }}>
+            <Row>
                 <Col>
                     <div className="App">
                         <header>

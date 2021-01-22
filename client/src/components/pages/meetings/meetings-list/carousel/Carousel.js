@@ -5,7 +5,7 @@ const customCarousel = ({ meetings }) => {
         <Carousel>
             {meetings.map((elm, idx) => {
                 return (
-                    <Carousel.Item key={idx}>
+                    <Carousel.Item key={idx} interval={2000}>
                         <img
                             className="d-block w-100"
                             style={{ height: '70vh', objectFit: 'cover' }}

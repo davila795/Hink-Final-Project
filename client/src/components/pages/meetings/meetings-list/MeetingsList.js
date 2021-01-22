@@ -167,7 +167,7 @@ class MeetingsList extends Component {
                         }
                     </Row>
 
-                </Container >
+                </Container>
 
                 <Popup show={this.state.showModal} handleModal={this.handleModal} title={this.state.titleModal}>
                     <MeetingForm closeModal={() => this.handleModal(false)} handleToast={this.handleToast} updateList={this.refreshMeetings} loggedUser={this.props.loggedUser} />

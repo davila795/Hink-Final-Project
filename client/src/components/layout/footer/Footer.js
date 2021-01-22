@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import GithubLogo from './github_PNG83.png'
 import IronhackLogo from './logo-ironhack-1.png'
 import './Footer.css'

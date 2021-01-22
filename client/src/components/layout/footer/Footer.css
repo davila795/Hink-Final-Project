@@ -2,6 +2,9 @@ footer {
   width: 100%;
   background: #2b2f2f;
   opacity: .8;
+  position: fixed;
+  bottom: 0;
+  line-height: 12px;
 }
 footer ul {
     display: flex;
@@ -14,8 +17,9 @@ footer li {
     margin-left: 3rem;
   }
 footer img {
-    width: 40px;
+    width: 1.5rem;
   }
 footer  span {
     color: white;
+    font-size: 14px;
 }

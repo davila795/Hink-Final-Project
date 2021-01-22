@@ -1,7 +1,7 @@
 .App {
   text-align: center;
-  max-width: 728px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 8.5rem auto 0 auto;
   position: relative;
 }
 
@@ -13,7 +13,7 @@
   position: absolute;
   top:-57px;
   width: 100%;
-  max-width: 728px;
+  /* max-width: 728px; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -35,7 +35,7 @@
 }
 
 .chat-list {
-  padding: 10px;
+  padding: 25px;
   height: 76vh;
   overflow-y: scroll;
   display: flex;
@@ -60,7 +60,7 @@
   bottom: -47px;
   background-color: rgb(24, 23, 23);
   width: 100%;
-  max-width: 728px;
+  /* max-width: 728px; */
   display: flex;
   font-size: 0.8rem;
 }

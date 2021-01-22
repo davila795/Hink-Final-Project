@@ -1,12 +1,9 @@
 .jumbotron {
-    margin-bottom: 0;
-  background-image: url('./HomeBg.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 94.3vh;
-  min-height: 500px;
-  filter: opacity(.95);
+    background-image: url('./HomeBg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
 } 
 
 .jumbotron h1{
@@ -18,3 +15,7 @@
     color: whitesmoke;
     font-size: 50px;
 } 
+
+.jumbotron-content {
+    margin-top: 3.5rem;
+}

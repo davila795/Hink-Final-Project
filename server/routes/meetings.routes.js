@@ -5,7 +5,7 @@ const { checkId } = require('../middlewares/middleware')
 
 
 router.get('/', (req, res) => {
-
+    
     Meeting
         .find({}, { title: 1, date: 1, image: 1, time: 1, owner: 1, city: 1, type: 1 })
         .populate('owner', 'username')
